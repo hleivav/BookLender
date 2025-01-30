@@ -5,7 +5,7 @@ public class Person {
     private int id;
     private String firstName;
     private String lastName;
-    private String [] books = new String[10] ;
+    private String [] books = new String[1] ;
 
     //constructor
     public Person(String firstName, String lastName) {
@@ -19,8 +19,8 @@ public class Person {
         return sequencer++;
     }
 
-    public int getId(){
-        return id;
+    private int getId() {
+        return this.id;
     }
 
     public String getFirstName() {
@@ -35,6 +35,10 @@ public class Person {
         return books;
     }
 
+    public String getPersonInformation() {
+        return "id: " + this.id + ", " + this.firstName + " " + this.lastName;
+    }
+
     //setters
 
 
@@ -47,26 +51,32 @@ public class Person {
     }
 
     //other methods
-    private static int getNextId() {
-        return sequencer++;
-    }
+
 
     public void addBokToPerson(Book bookToAdd){
-        books[Library.getEmptyPlaceInList(books)] = bookToAdd.getTitle();
+        //calls a method that returns -1 in case there's not space left. Otherwise, put a new title in the list.
+        //when no space left, a new method calls to make more space.
+        int nextEmptyPlaceInList = Library.getEmptyPlaceInList(books);
+        if (nextEmptyPlaceInList > -1){
+            books[nextEmptyPlaceInList] = bookToAdd.getTitle();
+        } else {
+            books =  Library.expandArray(books);
+            books[books.length - 1] = bookToAdd.getTitle();
+        }
     }
 
     public void removeBookFromPerson(Book bookToRemove){
+        //when title is removed a new method is called to shrink the array with one position and move the titles in the array.
         for (int i = 0; i < books.length; i++) {
             if(bookToRemove.getTitle().equals(books[i])){
                 books[i] = null;
                 return;
             }
         }
+        books = Library.shrinkArray(books);
     }
 
-    public String getPersonInformation() {
-        return "id: " + this.id + ", " + this.firstName + " " + this.lastName;
-    }
+
 
 }
 

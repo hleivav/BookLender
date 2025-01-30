@@ -1,8 +1,11 @@
 package org.example;
 
+import java.util.Arrays;
+
 public class Library {
     private int bookId = 0;
     private Book [] library = new Book[10];
+
 
     public Book[] getLibrary(){
         return library;
@@ -14,6 +17,20 @@ public class Library {
 
     public int getBookId(){
         return ++bookId;
+    }
+
+    public static String [] expandArray(String [] loanedBooks){
+        return Arrays.copyOf(loanedBooks, loanedBooks.length + 1);
+    }
+
+    public static String [] shrinkArray(String [] loanedBooks) {
+        String [] tempArray = new String[loanedBooks.length - 1];
+        int counter = 0;
+        for (String element : loanedBooks){
+            tempArray[counter] = element;
+            counter++;
+        }
+        return tempArray;
     }
 
     public  static int getEmptyPlaceInList (Book [] tempArray){
